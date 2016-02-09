@@ -1,0 +1,8 @@
+# NIBVerifier
+This application aims to be used to validate Portuguese bank accounts (NIB).
+
+## From GUI
+When no arguments passed to the program, the application launches a GUI to input the NIB and check if its valid.
+
+## From command line
+You can also use it form the command line. You just need to pass as many NIB as you want to validate.
