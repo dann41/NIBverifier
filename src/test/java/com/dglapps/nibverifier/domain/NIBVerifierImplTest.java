@@ -1,7 +1,5 @@
-package com.dglapps.nibverifier;
+package com.dglapps.nibverifier.domain;
 
-import com.dglapps.nibverifier.domain.NIBVerifier;
-import com.dglapps.nibverifier.domain.NIBVerifierImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
