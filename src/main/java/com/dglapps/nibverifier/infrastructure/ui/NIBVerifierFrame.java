@@ -10,7 +10,7 @@ public class NIBVerifierFrame extends JFrame {
     private static final long serialVersionUID = -6564074112664425080L;
 
     private NIBInput nibInput;
-    private JLabel nibResult;
+    private NIBResult nibResult;
 
     private final NIBVerifier nibVerifier;
 
@@ -26,24 +26,18 @@ public class NIBVerifierFrame extends JFrame {
         final JPanel panel = new JPanel(new GridBagLayout());
 
         nibInput = new NIBInput();
-        final JPanel nib = nibInput.getPanel();
-        placeNibInput(panel, nib);
+        placeNibInput(panel, nibInput.getComponent());
 
         JButton nibCheck = new JButton("Comprobar");
         placeNibCheckButton(panel, nibCheck);
+        nibCheck.addActionListener(actionEvent -> onCheckNib());
 
         JButton nibClear = new JButton("Limpiar");
         placeCleanButton(panel, nibClear);
-
-        nibResult = new JLabel();
-        nibResult.setText("Introduce NIB");
-        nibResult.validate();
-        nibResult.setHorizontalAlignment(JLabel.CENTER);
-        nibResult.setFont(new Font("Sans-Serif", Font.BOLD, 14));
-        placeResult(panel, nibResult);
-
-        nibCheck.addActionListener(actionEvent -> onCheckNib());
         nibClear.addActionListener(actionEvent -> onClearNib());
+
+        nibResult = new NIBResult();
+        placeResult(panel, nibResult.getComponent());
 
         setContentPane(panel);
         pack();
@@ -51,7 +45,7 @@ public class NIBVerifierFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private void placeNibInput(JPanel panel, JPanel nib) {
+    private void placeNibInput(JPanel panel, Component nib) {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -62,7 +56,7 @@ public class NIBVerifierFrame extends JFrame {
         panel.add(nib, constraints);
     }
 
-    private void placeNibCheckButton(JPanel panel, JButton nibCheck) {
+    private void placeNibCheckButton(JPanel panel, Component nibCheck) {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -74,7 +68,7 @@ public class NIBVerifierFrame extends JFrame {
         panel.add(nibCheck, constraints);
     }
 
-    private void placeCleanButton(JPanel panel, JButton nibClear) {
+    private void placeCleanButton(JPanel panel, Component nibClear) {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 1;
         constraints.gridy = 1;
@@ -84,7 +78,7 @@ public class NIBVerifierFrame extends JFrame {
         panel.add(nibClear, constraints);
     }
 
-    private void placeResult(JPanel panel, JLabel nibResult) {
+    private void placeResult(JPanel panel, Component nibResult) {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 2;
@@ -97,21 +91,17 @@ public class NIBVerifierFrame extends JFrame {
     private void onCheckNib() {
         String nib = nibInput.getNib();
         if (nibVerifier.checkNib(nib)) {
-            System.out.println(nib);
-            nibResult.setText("NIB correcto");
-            nibResult.setForeground(Color.GREEN);
+            nibResult.setCorrectText();
         } else {
             final int expected = nibVerifier.getControl(nib);
-            nibResult.setText("NIB incorrecto. Esperado " + expected);
-            nibResult.setForeground(Color.RED);
+            nibResult.setIncorrectText(expected);
         }
         repaint();
     }
 
     private void onClearNib() {
-        nibInput.clearNib();
-        nibResult.setText("Introduce NIB");
-        nibResult.setForeground(Color.BLACK);
+        nibInput.clear();
+        nibResult.clear();
         repaint();
     }
 
