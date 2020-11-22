@@ -1,5 +1,7 @@
 package com.dglapps.nibverifier;
 
+import com.dglapps.nibverifier.domain.NIBVerifier;
+import com.dglapps.nibverifier.domain.NIBVerifierImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.dglapps.nibverifier;
+package com.dglapps.nibverifier.domain;
 
 public class NIBVerifierImpl implements NIBVerifier {
 

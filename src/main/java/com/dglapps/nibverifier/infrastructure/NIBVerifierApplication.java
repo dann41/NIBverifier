@@ -1,4 +1,8 @@
-package com.dglapps.nibverifier;
+package com.dglapps.nibverifier.infrastructure;
+
+import com.dglapps.nibverifier.domain.NIBVerifier;
+import com.dglapps.nibverifier.domain.NIBVerifierImpl;
+import com.dglapps.nibverifier.infrastructure.ui.NIBVerifierFrame;
 
 public class NIBVerifierApplication {
 
