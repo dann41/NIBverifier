@@ -2,37 +2,27 @@ package com.dglapps.nibverifier.infrastructure;
 
 import com.dglapps.nibverifier.domain.NIBVerifier;
 import com.dglapps.nibverifier.domain.NIBVerifierImpl;
+import com.dglapps.nibverifier.infrastructure.cli.NIBVerifierCli;
 import com.dglapps.nibverifier.infrastructure.ui.NIBVerifierFrame;
 
 public class NIBVerifierApplication {
 
 	public static void main(final String... args) {
+		NIBVerifier nibVerifier = new NIBVerifierImpl();
 		if (args.length == 0) {
-			final NIBVerifierFrame frame = new NIBVerifierFrame(new NIBVerifierImpl());
-			frame.setVisible(true);
+			launchUI(nibVerifier);
 		} else {
-			// command line
-			NIBVerifier verifier = new NIBVerifierImpl();
-			for (String arg : args) {
-				if (!isDigitString(arg)) {
-					System.out.println(arg + "\tNo digit");
-				} else if (verifier.checkNib(arg)) {
-					System.out.println(arg + "\tValid");
-				} else {
-					System.out.println(arg + "\tInvalid");
-				}
-			}
+			processCommandLine(nibVerifier, args);
 		}
 	}
 
-	private static boolean isDigitString(String value) {
-		final char[] toValidate = value.toCharArray();
-		for (char c : toValidate) {
-			if (!Character.isDigit(c)) {
-				return false;
-			}
-		}
-		return true;
+	private static void launchUI(NIBVerifier nibVerifier) {
+		new NIBVerifierFrame(nibVerifier)
+				.setVisible(true);
+	}
+
+	private static void processCommandLine(NIBVerifier nibVerifier, String[] args) {
+		new NIBVerifierCli(nibVerifier).execute(args);
 	}
 	
 }
