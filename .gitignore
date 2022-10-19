@@ -4,6 +4,4 @@
 /.gradle
 .project
 .settings
-gradle
-gradlew
-gradlew.bat
+.idea
