@@ -13,18 +13,18 @@ public class NIBVerifierApplication {
 		this.uiController = uiController;
 	}
 
-	public static void main(final String... args) {
-		new NIBVerifierApplication(
-				new CommandLineController(),
-				new UIController()
-		).execute(args);
-	}
-
 	private void execute(String[] args) {
 		if (args.length == 0) {
 			uiController.execute();
 		} else {
 			commandLineController.execute(args);
 		}
+	}
+
+	public static void main(final String... args) {
+		new NIBVerifierApplication(
+				new CommandLineController(),
+				new UIController()
+		).execute(args);
 	}
 }
