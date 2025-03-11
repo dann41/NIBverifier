@@ -1,11 +1,16 @@
 plugins {
     id("java")
+    application
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+application {
+    mainClass = "com.dglapps.nibverifier.NIBVerifierApplication"
 }
 
 repositories {
