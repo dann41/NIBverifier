@@ -9,15 +9,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.xml.stream.events.Characters;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListener {
 
@@ -119,6 +126,26 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
     if ((keyEvent.getKeyCode() == KeyEvent.VK_V) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
       keyEvent.consume();
     }
+
+    if ((keyEvent.getKeyCode() == KeyEvent.VK_V) && ((keyEvent.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0)) {
+      try {
+        String contentPasted = (String) Toolkit.getDefaultToolkit()
+            .getSystemClipboard()
+            .getData(DataFlavor.stringFlavor);
+        System.out.println("Pasted: " + contentPasted);
+        fillInputs(contentPasted);
+      } catch (UnsupportedFlavorException | IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  private void fillInputs(String contentPasted) {
+    int[] digits = contentPasted.chars()
+        .filter(Character::isDigit)
+        .toArray();
+
+    int maxSize = bankInput.getColumns();
   }
 
   @Override
