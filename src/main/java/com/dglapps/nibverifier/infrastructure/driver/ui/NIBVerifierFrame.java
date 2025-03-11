@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.xml.stream.events.Characters;
+import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -23,11 +23,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.io.Serial;
 
 public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListener {
 
+  @Serial
   private static final long serialVersionUID = -6564074112664425080L;
 
   private final JTextField bankInput;
@@ -49,7 +49,9 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
 
     this.setTitle("Verificador NIB");
 
-    final JPanel panel = new JPanel(new GridBagLayout());
+    final JPanel mainPanel = new JPanel(new GridBagLayout());
+    mainPanel.setBorder(new EmptyBorder(24, 24, 24, 24));
+
     final GridBagConstraints gbc = new GridBagConstraints();
 
     final JPanel nib = new JPanel(new FlowLayout());
@@ -74,7 +76,7 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
     gbc.weighty = 4;
     gbc.weightx = 4;
     gbc.fill = GridBagConstraints.BOTH;
-    panel.add(nib, gbc);
+    mainPanel.add(nib, gbc);
 
     nibCheck = new JButton("Comprobar");
     gbc.gridx = 0;
@@ -84,7 +86,7 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
     gbc.weighty = 2;
     gbc.weightx = 2;
     gbc.fill = GridBagConstraints.BOTH;
-    panel.add(nibCheck, gbc);
+    mainPanel.add(nibCheck, gbc);
 
     nibClear = new JButton("Limpiar");
     gbc.gridx = 1;
@@ -92,7 +94,7 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
     gbc.weighty = 2;
     gbc.weightx = 2;
     gbc.fill = GridBagConstraints.BOTH;
-    panel.add(nibClear, gbc);
+    mainPanel.add(nibClear, gbc);
 
     nibResult = new JLabel();
     nibResult.setText("Introduce NIB");
@@ -105,7 +107,7 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
     gbc.weighty = 20;
     gbc.gridwidth = 2;
     gbc.fill = GridBagConstraints.BOTH;
-    panel.add(nibResult, gbc);
+    mainPanel.add(nibResult, gbc);
 
     bankInput.addKeyListener(this);
     agencyInput.addKeyListener(this);
@@ -114,7 +116,7 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
     nibCheck.addActionListener(this);
     nibClear.addActionListener(this);
 
-    this.setContentPane(panel);
+    this.setContentPane(mainPanel);
     this.pack();
     this.setMinimumSize(this.getPreferredSize());
 
@@ -133,19 +135,10 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
             .getSystemClipboard()
             .getData(DataFlavor.stringFlavor);
         System.out.println("Pasted: " + contentPasted);
-        fillInputs(contentPasted);
       } catch (UnsupportedFlavorException | IOException e) {
         throw new RuntimeException(e);
       }
     }
-  }
-
-  private void fillInputs(String contentPasted) {
-    int[] digits = contentPasted.chars()
-        .filter(Character::isDigit)
-        .toArray();
-
-    int maxSize = bankInput.getColumns();
   }
 
   @Override
@@ -155,7 +148,6 @@ public class NIBVerifierFrame extends JFrame implements KeyListener, ActionListe
   @Override
   public void keyTyped(final KeyEvent keyEvent) {
     final char c = keyEvent.getKeyChar();
-    // Permitimos solo dígitos
     if (!Character.isDigit(c)) {
       keyEvent.consume();
     }
